@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var pedidosRouter = require('./routes/pedidos');
+var productosRouter = require('./routes/productos');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/pedidos', pedidosRouter);
+app.use('/productos', productosRouter);
 
 app.get('/protegido', verificarToken, (req, res) => {
 
