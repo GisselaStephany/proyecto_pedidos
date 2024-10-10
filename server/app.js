@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var pedidosRouter = require('./routes/pedidos');
 var productosRouter = require('./routes/productos');
+var categoriasRouter = require('./routes/categorias');
 
 var app = express();
 
@@ -28,6 +29,8 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/pedidos', pedidosRouter);
 app.use('/productos', productosRouter);
+app.use('/categorias', categoriasRouter);
+
 
 app.get('/protegido', verificarToken, (req, res) => {
 

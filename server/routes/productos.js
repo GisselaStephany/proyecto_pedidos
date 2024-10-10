@@ -28,9 +28,34 @@ router.get('/', function (req, res, next) {
     });
 });
 
+router.get('/:grupo', function (req, res, next) {
+
+    console.log('Peticion de codigos');
+
+    //creamos la consulta  
+    var query = 'SELECT * FROM productos WHERE nombre_producto LIKE "%' + req.params.grupo + '%" ;';
+    //ejecutamos la consulta
+    conexion.query(query, function (error, results, fields) {
+        if (error) {
+            console.log(error);
+            res.status(500).send({
+                error: error,
+                message: 'Error al realizar la peticion'
+            })
+        } else {
+            console.log(results);
+            res.status(200).send({
+                data: results,
+                message: 'Listado de productos'
+            });
+        }
+    });
+});
+
+
 
 //postear
-router.post('/', function (req, res, next) {
+router.post('/store', function (req, res, next) {
 
     const { codigo, nombre_producto, descripcion, imagen, estado, vendedor_id } = req.body;
 

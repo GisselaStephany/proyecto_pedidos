@@ -17,7 +17,7 @@ router.get('/', function (req, res) {
             console.log(results);
             res.status(200).send({
                 data: results,
-                message: 'Listando usuarios'
+                message: 'Listando pedidos'
             });
         }
 
@@ -32,7 +32,7 @@ router.post('/store', async function (req, res, next) {
 
 
     const query = `INSERT INTO pedidos (producto_id, cliente_id, vendedor_id, comentario, estado, fecha_pedido, fecha_entrega, coordenadas, direccion)
-                VALUES ("${producto_id}", "${cliente_id}", "${vendedor_id}", "${comentario}", "${estado}", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), "${coordenadas}", "${direccion}");`;
+                VALUES ("${producto_id}", ${cliente_id}, "${vendedor_id}", "${comentario}", "${estado}", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), "${coordenadas}", "${direccion}");`;
 
     conexion.query(query, function (error, results, fields) {
         if (error) {
@@ -101,11 +101,11 @@ router.put('/update/:id', function (req, res, next) {
 
   });
 
-  router.get('/estado/:id', function (req, res, next) {
+  router.put('/estado/:id', function (req, res, next) {
     const id = req.params.id;
     const nuevoEstado = req.body.estado;
 
-    var query = `UPDATE pedidos SET estado = ${nuevoEstado} WHERE id = ${req.params.id};`;
+    var query = `UPDATE pedidos SET estado = "${nuevoEstado}" WHERE id = ${req.params.id};`;
     conexion.query(query, function (error, results, fields) {
       if (error) {
         console.log(error);

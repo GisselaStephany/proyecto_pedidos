@@ -1,4 +1,5 @@
 <template>
+   <div class="body">
     <div class="d-flex justify-content-center">
         <div class="card">
             <div class="card_body">
@@ -13,11 +14,12 @@
                     <input type="password" v-model="password" class="form-control" id="password">
                 </div>
                 <div class="mb-3 text-center">
-                    <button @click="ingresar()" class="btn btn-primary">Iniciar</button>
+                    <button @click="ingresar()" class="btn btn-primary">Iniciar Sesión</button>
                 </div>
             </div>
         </div>
     </div>
+   </div>
 </template>
 <script setup>
 
@@ -51,6 +53,19 @@ const ingresar = async () => {
 
         localStorage.setItem('token', data.token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+        // Determinamos la ruta según el rol
+        const usuario = data.usuario;
+        let redirectPath = '/';
+
+        if (usuario.rol === 'admin') {
+            redirectPath = '/admin'; 
+        } else if (usuario.rol === 'vendedor') {
+            redirectPath = '/ventas';
+        } else if (usuario.rol === 'cliente') {
+            redirectPath = '/';
+        }
+
         Swal.fire({
             title: 'Hola ' + data.usuario.nombre + '!!',
             text: 'Te damos la bienvenida!',
@@ -59,7 +74,7 @@ const ingresar = async () => {
             timer: 1000
         });
         setTimeout(() => {
-            route.push({path: '/'});
+            route.push({ path: redirectPath });
         },2000);
 
     } catch (error) {
@@ -79,9 +94,22 @@ const limpiarSesion = () => {
 
 </script>
 <style scoped>
+
+.body {
+    background-color: rgb(200, 200, 200);
+    height: 100vh;
+    background-image: url('https://i.pinimg.com/736x/7c/be/0f/7cbe0f18deae4da7cbee98d6953bb09c.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.8;
+    
+}
+
 .card {
     width: 30rem;
     padding: 2rem;
     margin-top: 10%;
 }
+
 </style>
